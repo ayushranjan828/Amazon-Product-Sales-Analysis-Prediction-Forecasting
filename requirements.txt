@@ -1,10 +1,11 @@
 numpy
 pandas
-lightgbm
-scikit-learn
-matplotlib
-plotly
-seaborn
-statsmodels
 scipy
+statsmodels
+scikit-learn
+lightgbm
+shap
 prophet
+matplotlib
+seaborn
+plotly
