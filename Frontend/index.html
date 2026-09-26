@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Sales Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Amazon Product Sales</h1>
+    <nav>
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="predict">Predict</button>
+      <button class="tab" data-tab="forecast">Forecast</button>
+      <button class="tab" data-tab="insights">Insights</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Overview -->
+    <section id="overview" class="panel active">
+      <div id="kpis" class="kpis"></div>
+      <div class="grid">
+        <div class="card"><h3>Profit by Category</h3><canvas id="catChart"></canvas></div>
+        <div class="card"><h3>Top 10 Brands by Profit</h3><canvas id="brandChart"></canvas></div>
+        <div class="card"><h3>Profit by Warehouse Region</h3><canvas id="regionChart"></canvas></div>
+        <div class="card"><h3>Revenue by Fulfilment Type</h3><canvas id="fulfilChart"></canvas></div>
+        <div class="card"><h3>Rating Distribution</h3><canvas id="ratingChart"></canvas></div>
+        <div class="card"><h3>Discount Distribution</h3><canvas id="discountChart"></canvas></div>
+      </div>
+      <div class="card"><h3>Top 10 Products by Profit</h3><div id="topProducts" class="table-wrap"></div></div>
+    </section>
+
+    <!-- Predict -->
+    <section id="predict" class="panel">
+      <div class="grid two">
+        <form id="predictForm" class="card">
+          <h3>Product Details</h3>
+          <div class="form-grid">
+            <label>Selling Price (₹)<input type="number" name="selling_price_inr" value="499" step="any" required></label>
+            <label>MRP (₹)<input type="number" name="mrp_inr" value="1299" step="any" required></label>
+            <label>Cost Price (₹)<input type="number" name="cost_price_inr" value="320" step="any" required></label>
+            <label>Discount (%)<input type="number" name="discount_percentage" value="62" readonly></label>
+            <label>Profit Margin (%)<input type="number" name="profit_margin_pct" value="22.5" step="any"></label>
+            <label>Rating<input type="number" name="rating" value="4.3" min="0" max="5" step="0.1"></label>
+            <label>Rating Count<input type="number" name="rating_count" value="15000" min="0"></label>
+            <label>Stock Quantity<input type="number" name="stock_quantity" value="500" min="0"></label>
+            <label>Avg Delivery Days<input type="number" name="avg_delivery_days" value="3" min="0" step="any"></label>
+            <label>Return Rate (%)<input type="number" name="return_rate_pct" value="4.5" min="0" max="100" step="any"></label>
+            <label>Product Age (days)<input type="number" name="product_age_days" value="365" min="0"></label>
+            <label>Seasonal Product
+              <select name="is_seasonal_product"><option value="false">No</option><option value="true">Yes</option></select>
+            </label>
+            <label>Warehouse Region<select name="warehouse_region"></select></label>
+            <label>Fulfilment Type<select name="fulfilment_type"></select></label>
+            <label>Demand Tier<select name="demand_tier"></select></label>
+            <label>Main Category<select name="main_category"></select></label>
+            <label class="wide">Brand<input name="brand" list="brandList" value="boAt"><datalist id="brandList"></datalist></label>
+          </div>
+          <button type="submit" class="btn">Predict Units Sold</button>
+        </form>
+        <div class="card result" id="predictResult">
+          <h3>Prediction</h3>
+          <p class="muted">Fill in the form and click predict.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forecast -->
+    <section id="forecast" class="panel">
+      <div class="card">
+        <div class="row">
+          <h3>Monthly Units — Damped ETS Forecast</h3>
+          <label class="inline">Months
+            <select id="fcMonths">
+              <option>3</option><option selected>6</option><option>12</option>
+            </select>
+          </label>
+        </div>
+        <canvas id="fcChart" height="110"></canvas>
+      </div>
+      <div class="card"><h3>Forecast Table</h3><div id="fcTable" class="table-wrap"></div></div>
+    </section>
+
+    <!-- Insights -->
+    <section id="insights" class="panel">
+      <div id="restockKpis" class="kpis"></div>
+      <div class="grid">
+        <div class="card"><h3>Restock Status</h3><canvas id="restockChart"></canvas></div>
+        <div class="card"><h3>Restock Units by Warehouse</h3><canvas id="warehouseChart"></canvas></div>
+      </div>
+      <div class="card"><h3>Optimal Discount Band per Category</h3><div id="discountTable" class="table-wrap"></div></div>
+      <div class="card"><h3>Products Needing Restock</h3><div id="restockTable" class="table-wrap"></div></div>
+      <div class="card"><h3 id="returnsTitle">High-Return Products</h3><div id="returnsTable" class="table-wrap"></div></div>
+    </section>
+  </main>
+
+  <div id="loader" class="loader">Loading…</div>
+  <script src="app.js"></script>
+</body>
+</html>

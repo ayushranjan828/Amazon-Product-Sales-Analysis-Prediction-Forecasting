@@ -9,3 +9,6 @@ prophet
 matplotlib
 seaborn
 plotly
+fastapi
+uvicorn
+joblib
